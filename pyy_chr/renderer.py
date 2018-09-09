@@ -69,16 +69,24 @@ class Renderer:
         if self.tile_data is None:
             raise Exception('No tile data loaded!')
 
-        draw = ImageDraw.Draw(out_img)
+        cache = {}
 
         for row in range(0, size[1]):
             for col in range(0, size[0]):
                 tile_index = self.map_interpreter.get_tile_index(self.map_data, col, row)
-                interpreted_tile = self.tile_interpreter.get_tile(self.tile_data, tile_index)
-                for x in range(len(interpreted_tile)):
-                    for y in range(len(interpreted_tile[x])):
-                        palette_index = self.map_interpreter.get_palette_index(self.map_data, col, row)
-                        palette_color = 0 if interpreted_tile[x][y] == 0 else interpreted_tile[x][y] + palette_index * self.palette_interpreter.num_palettes(self.palette_data)
-                        draw.point((col * 8 + x, row * 8 + y), palette_color)
+                if not tile_index in cache:
+                    interpreted_tile = self.tile_interpreter.get_tile(self.tile_data, tile_index)
+                    tile_width, tile_height = interpreted_tile.get_size()
+                    tile_image = Image.new('P', (tile_width, tile_height))
+                    tile_draw = ImageDraw.Draw(tile_image)
+                    for x in range(tile_width):
+                        for y in range(tile_height):
+                            val = interpreted_tile.get((x, y))
+                            palette_index = self.map_interpreter.get_palette_index(self.map_data, col, row)
+                            palette_color = 0 if val == 0 else val + palette_index * self.palette_interpreter.num_palettes(self.palette_data)
+                            tile_draw.point((x, y), palette_color)
+                    cache[tile_index] = tile_image
+                out_img.paste(cache[tile_index], (col * 8, row * 8))
+
 
         return out_img

@@ -1,3 +1,5 @@
+from .__tile_buffer import __TileBuffer as TileBuffer
+print(dir(TileBuffer))
 
 class StandardBitplaneTileInterpreter:
     def __init__(self, interleaved_count, layered_count):
@@ -10,10 +12,9 @@ class StandardBitplaneTileInterpreter:
 
         tile_data = data[start:start + size]
 
-        out_data = []
+        out_data = TileBuffer((8, 8))
 
         for x in range(8):
-            out_data.append([])
             for y in range(8):
                 bitplane = 0
                 val = 0
@@ -25,6 +26,6 @@ class StandardBitplaneTileInterpreter:
                         val |= bit << bitplane
                         bitplane += 1
 
-                out_data[x].append(val)
+                out_data.set((x, y), val)
 
         return out_data
