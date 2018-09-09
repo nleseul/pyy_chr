@@ -1,5 +1,4 @@
 from .__tile_buffer import __TileBuffer as TileBuffer
-print(dir(TileBuffer))
 
 class StandardBitplaneTileInterpreter:
     def __init__(self, interleaved_count, layered_count):
