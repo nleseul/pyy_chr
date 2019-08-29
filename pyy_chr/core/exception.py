@@ -1,0 +1,2 @@
+class PixelColorFormatException(Exception):
+    pass
