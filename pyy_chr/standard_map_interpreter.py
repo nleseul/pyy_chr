@@ -1,6 +1,7 @@
 class StandardMapInterpreter:
-    def __init__(self, size):
+    def __init__(self, size, palette=0):
         self.size = size
+        self.palette = palette
 
     def get_size(self, data):
         return self.size
@@ -11,4 +12,4 @@ class StandardMapInterpreter:
         return data[map_offset] if map_offset < len(data) else 0
 
     def get_palette_index(self, data, col, row):
-        return 0
+        return self.palette

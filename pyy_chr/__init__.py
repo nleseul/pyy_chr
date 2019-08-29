@@ -4,3 +4,4 @@ from .standard_map_interpreter import StandardMapInterpreter
 from .nes_palette_interpreter import NesPaletteInterpreter
 from .grayscale_palette_interpreter import GrayscalePaletteInterpreter
 from .nes_map_interpreter import NesMapInterpreter
+from .all_tiles_map_interpreter import AllTilesMapInterpreter

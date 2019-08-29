@@ -82,8 +82,10 @@ class Renderer:
                     for x in range(tile_width):
                         for y in range(tile_height):
                             val = interpreted_tile.get((x, y))
-                            palette_index = self.map_interpreter.get_palette_index(self.map_data, col, row)
-                            palette_color = 0 if val == 0 else val + palette_index * self.palette_interpreter.num_palettes(self.palette_data)
+                            palette_color = 0
+                            if val != 0:
+                                palette_index = self.map_interpreter.get_palette_index(self.map_data, col, row)
+                                palette_color = val + palette_index * self.palette_interpreter.num_colors(self.palette_data)
                             tile_draw.point((x, y), palette_color)
                     cache[tile_index] = tile_image
                 out_img.paste(cache[tile_index], (col * 8, row * 8))

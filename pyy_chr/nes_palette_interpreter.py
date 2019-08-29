@@ -76,6 +76,9 @@ class NesPaletteInterpreter:
 
         return self.hardcoded_table[b & 0x3f]
 
+    def num_colors(self, data):
+        return 4
+
     def num_palettes(self, data):
         return len(data) // 4
 
